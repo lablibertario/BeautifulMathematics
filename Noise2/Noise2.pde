@@ -1,4 +1,4 @@
-private int gridSize = 160;
+private int gridSize = 64;
 private int paintSize = 640;
 private PVector[][] gradientArr = new PVector[ceil(paintSize/gridSize)+1][ceil(paintSize/gridSize)+1];
 private float customColor = 0;
@@ -13,15 +13,14 @@ void setup() {
       gradientArr[floor(i/gridSize)][floor(j/gridSize)] = gradiantVector(i, j);
     }
   }
- //println(customColor = (noise2d(159, 1)+mapping)/(mapping*2)*255);
- //println(customColor = (noise2d(161, 1)+mapping)/(mapping*2)*255);
   for (int i = 0; i < paintSize; i++) {
     for (int j = 0; j < paintSize; j++) {
       //das mappen muss noch gemacht werden gradiant werte scheinen zu gross zu sein
-      customColor = (noise2d(i, j)+mapping)/(mapping*2)*255;
+      customColor = noise2d(i, j)/mapping*85;
+      //print(customColor+": ");
       stroke(customColor);
       point(i, j);
-      lowest = lowest < customColor?lowest:customColor;
+      lowest = lowest > customColor?lowest:customColor;
     //  println(customColor);
     }
   }
@@ -60,7 +59,7 @@ private float noise2d(int xU, int yU) {
   float bla = 3*(xU - xU/gridSize*gridSize)^2-2*(xU-xU/gridSize*gridSize)^3;
   float bla2 = uLDot + bla*(uRDot - uLDot);
   float bla3 = oLDot + bla*(oRDot - oLDot);
-  return (bla2+bla3)/2;
+  return (bla2+bla3)/2>0?(bla2+bla3)/2:-1*(bla2+bla3)/2;
 }
 
 private PVector gradiantVector(int startX, int startY) {
