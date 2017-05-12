@@ -1,4 +1,4 @@
-private int gridSize = 160;
+private int gridSize = 8;
 private int paintSize = 640;
 private PVector[][] gradientArr = new PVector[ceil(paintSize/gridSize)+1][ceil(paintSize/gridSize)+1];
 private float customColor = 0;
@@ -31,23 +31,24 @@ private float noise2d(int xU, int yU) {
   PVector gradiantOR = gradientArr[((xU+gridSize)/gridSize)][(yU/gridSize)];
   PVector gradiantUR = gradientArr[((xU+gridSize)/gridSize)][((yU+gridSize)/gridSize)];
    
-  PVector vOL = new PVector(x,y-size);//0,1
-  PVector vOR = new PVector(x-size,y-size);//1,1
-  PVector vUL = new PVector(x,y);//0,0
-  PVector vUR = new PVector(x-size,y);//1,0
+  float vOL = sqrt(x*x+(y-1)*(y-1));//0,1
+  float vOR = sqrt((x-size)*(x-size)+(y-size)*(y-size));//1,1
+  float vUL = sqrt(x*x+y*y);//0,0
+  float vUR = sqrt((x-size)*(x-size)+y*y);//1,0
  // println("vOL:"+vOL+"  vOR:"+vOR+"    vUL:"+vUL+"    vUR:"+vUR);
 
-  float oRDot = vOR.dot(gradiantOR);
-  float uRDot = vUR.dot(gradiantUR);
-  float oLDot = vOL.dot(gradiantOL);
-  float uLDot = vUL.dot(gradiantUL);
+  float oRDot = vUL*gradiantOR.x+vUL*gradiantOR.y;
+  float uRDot = vOL*gradiantUR.x+vOL*gradiantUR.y;
+  float oLDot = vUR*gradiantOL.x+vUR*gradiantOL.y;
+  float uLDot = vOR*gradiantUL.x+vOR*gradiantUL.y;
   
-  float ix0;
+  /*float ix0;
   float ix1;
   ix0 = lerp(uLDot,uRDot,xU%gridSize/100);
   ix1 = lerp(oLDot,oRDot,xU%gridSize/100);
   
-  return lerp(ix0,ix1,yU%gridSize/100);
+  return lerp(ix0,ix1,yU%gridSize/100);*/
+  return (oRDot+uRDot+oLDot+uLDot)/4;
 }
 
 private PVector gradiantVector(int startX, int startY) {

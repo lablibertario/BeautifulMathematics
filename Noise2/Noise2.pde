@@ -1,4 +1,4 @@
-private int gridSize = 64;
+private int gridSize = 8;
 private int paintSize = 640;
 private PVector[][] gradientArr = new PVector[ceil(paintSize/gridSize)+1][ceil(paintSize/gridSize)+1];
 private float customColor = 0;

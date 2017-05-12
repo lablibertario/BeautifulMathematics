@@ -1,6 +1,6 @@
 import java.util.*;
-private int gS = 20;
-private int fS = 320;
+private int gS = 320;
+private int fS = 640;
 private PVector[][] vecArr = new PVector[gS][gS];
 private  Set setA = new HashSet();
 
